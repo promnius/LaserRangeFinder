@@ -11,6 +11,9 @@
 #include "Arduino.h"
 #include "GlobalVariables.h"
 
+// DEFINING THIS FUNCTION IS CRITICAL TO MAXIMUM SPEED OPERATION!!! IT DOESN'T EVEN HAVE TO GET CALLED ANYWHERE
+void yield () {} //Get rid of the hidden function that checks for serial input and such. 
+
 // FASTRUN loads this entire function into RAM, which may run faster if the cache is overflowing- FLASH access is only 24Mhz
 // so there could be additional 3 cycle delays. Of course, it eats RAM. Also, the teensy only has 1 cycle access to the lower
 // 50% of RAM, so if the sketch uses more than that, the bonus is reduced.

@@ -14,9 +14,6 @@ void setup() {
   delay(1000);
 }
 
-// DEFINING THIS FUNCTION IS CRITICAL TO MAXIMUM SPEED OPERATION!!! IT DOESN'T EVEN HAVE TO GET CALLED ANYWHERE
-void yield () {} //Get rid of the hidden function that checks for serial input and such. 
-
 void loop() {
   // SAMPLE THE SENSOR AND DO ALL RELEVANT MATH TO GET THE NUMBERS WE WANT
   scanCCD_SOFTCODED();
@@ -32,7 +29,7 @@ void loop() {
   if (intMode == 1){if (lngLoopCounter%100 == 0){plotCCDScan();}}
   else if (intMode == 2){if (lngLoopCounter%100 == 0){Serial.println(fltCentroidMath);}}
   else if (intMode == 3){if (lngLoopCounter%100 == 0){Serial.println(fltDistance);}}
-  else if (intMode == 98){if (lngLoopCounter%10000 == 0){plotCalibrationPoints();}}
+  else if (intMode == 9){if (lngLoopCounter%10000 == 0){plotCalibrationPoints();}}
 
   lngLoopCounter++;
   if (lngLoopCounter >= 100000){
@@ -41,4 +38,5 @@ void loop() {
   }
 
   // HANDLE SERIAL REQUESTS TO CHANGE MODE OR INITIATE CALIBRATION ROUTINE
+  if (Serial.available()>0){processSerial();}
 }

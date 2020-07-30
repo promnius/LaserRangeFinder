@@ -48,6 +48,7 @@
 #define PORT_PCR_PS                     ((uint32_t)0x00000001)          // Pull Select
 
 // ------------------ VARIABLES ---------------------------
+int intSerialByte = 0; // incoming serial byte for processing
 int INTccdRaw[1050]; // raw values from the CCD ADC. array length is longer than the longest possible resolution because of the dead pulses at the beginning.
 float fltCentroid = 0; // center of the blip, in pixels (or fractional pixels), using values calculated on the fly
 float fltCentroidMath = 0; // center of the blip, in pixels or fractional pixels, using values calculated after the fact (includes background subtraction)
@@ -76,8 +77,9 @@ int intMode = 4; // Modes are as follows:
 // 2 scrolling timeseries of centroid on serial monitor for assessing stability. Note currently only the math variant is used.
 // 3 scrolling timeseries of distance on serial monitor for assessing stability and accuracy.
 // 4 plot a single character every 1 million sensor reads, for timing how fast we are going
-// 98 plot calibration values
-// 99 calibration
+// 8 plot calibration values
+// 9 calibration OBSOLETE: calibration no longer has a special mode, there are just serial commands reserved for
+  // setting each cal point.
 // more numbers: not implemented, but can include digital outputs of distance, or response to queries
 
 #endif

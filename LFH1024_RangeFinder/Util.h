@@ -80,4 +80,32 @@ void saveCalibrationData(){
   }
 }
 
+float sumCentroids(){
+  float fltSum = 0;
+  for (int i = 0; i < intHistoryLength; i++){
+    fltSum += FLTcentroids[i];
+  }
+  return(fltSum);
+}
+
+void processSerial(){
+  intSerialByte = Serial.read();
+  if (intSerialByte >=128 && intSerialByte < 228){ // set calibration point
+    FLTcalibrationTable[intSerialByte-128] = sumCentroids()/(float)intHistoryLength;
+  }
+  else if (intSerialByte == 228){saveCalibrationData();}
+  // ok . . . there's probably a better way to do this. But I like having the ascii numbers map to the
+  // mode commands
+  else if (intSerialByte == '0'){intMode=0;}
+  else if (intSerialByte == '1'){intMode=1;}
+  else if (intSerialByte == '2'){intMode=2;}
+  else if (intSerialByte == '3'){intMode=3;}
+  else if (intSerialByte == '4'){intMode=4;}
+  else if (intSerialByte == '5'){intMode=5;}
+  else if (intSerialByte == '6'){intMode=6;}
+  else if (intSerialByte == '7'){intMode=7;}
+  else if (intSerialByte == '8'){intMode=8;}
+  else if (intSerialByte == '9'){intMode=9;}
+}
+
 #endif
