@@ -80,20 +80,31 @@ void saveCalibrationData(){
   }
 }
 
-float sumCentroids(){
-  float fltSum = 0;
+void sumCentroids(){
+  int intMissingData = 0;
+  fltSumCentroid = 0;
+  fltMinCentroid = 255;
+  fltMaxCentroid = 0;
   for (int i = 0; i < intHistoryLength; i++){
-    fltSum += FLTcentroids[i];
+    fltSumCentroid += FLTcentroids[i];
+    if (FLTcentroids[i]<fltMinCentroid){fltMinCentroid = FLTcentroids[i];}
+    if (FLTcentroids[i]>fltMaxCentroid){fltMaxCentroid = FLTcentroids[i];}
+    if (FLTcentroids[i]==0){intMissingData = 1;}
   }
-  return(fltSum);
+  if (intMissingData == 1){fltSumCentroid = 0;}
+  
 }
 
 void processSerial(){
   intSerialByte = Serial.read();
   if (intSerialByte >=128 && intSerialByte < 228){ // set calibration point
-    FLTcalibrationTable[intSerialByte-128] = sumCentroids()/(float)intHistoryLength;
+    sumCentroids();
+    FLTcalibrationTable[intSerialByte-128] = fltSumCentroid/(float)intHistoryLength;
+    Serial.print("Successfully calibrated point "); Serial.print(intSerialByte-128); Serial.print(". Min centroid: ");
+    Serial.print(fltMinCentroid); Serial.print(", Max centroid: "); Serial.print(fltMaxCentroid); 
+    Serial.print(", Ave Centroid (recorded calibration): "); Serial.println(FLTcalibrationTable[intSerialByte-128]);
   }
-  else if (intSerialByte == 228){saveCalibrationData();}
+  else if (intSerialByte == 228){saveCalibrationData();Serial.println("Calibration Data Saved!");}
   // ok . . . there's probably a better way to do this. But I like having the ascii numbers map to the
   // mode commands
   else if (intSerialByte == '0'){intMode=0;}

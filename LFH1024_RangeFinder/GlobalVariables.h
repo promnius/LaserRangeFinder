@@ -68,10 +68,13 @@ float fltDistance = 0; // calibrated distance to target, in 'full range scale,' 
 // maps to the maximum value seen during calibration. The actual units/ range of the device is based on the distances used during calibration,
 // since the device doesn't actually know the real distances, only the calibration steps.
 float FLTcalibrationTable[100];
+float fltSumCentroid = 0;
+float fltMinCentroid = 0;
+float fltMaxCentroid = 0;
 float FLTdistances[intHistoryLength]; // history of distances. Redundant, as these could be calculated from the centroids hisory
 int intCCDResolution = 256; // number of active pixels on the array. Acceptable values: 128,256,512,1024. Other numbers may not work.
 int intEEAddress = 0; // location to read or write from eeprom.
-int intMode = 4; // Modes are as follows:
+int intMode = 8; // Modes are as follows:
 // 0 analog output of distance only. This is also included in the further options. 
 // 1 raw CCD on serial plotter for debugging
 // 2 scrolling timeseries of centroid on serial monitor for assessing stability. Note currently only the math variant is used.

@@ -9,6 +9,10 @@
 void setup() {
   initializePinStates();
   initializeVariables();
+  //for (int i = 0; i < 100; i ++){
+  //  FLTcalibrationTable[i] = 150;
+  //}
+  //saveCalibrationData();
   loadCalibrationData();
   Serial.begin(1000000);
   delay(1000);
@@ -29,7 +33,7 @@ void loop() {
   if (intMode == 1){if (lngLoopCounter%100 == 0){plotCCDScan();}}
   else if (intMode == 2){if (lngLoopCounter%100 == 0){Serial.println(fltCentroidMath);}}
   else if (intMode == 3){if (lngLoopCounter%100 == 0){Serial.println(fltDistance);}}
-  else if (intMode == 9){if (lngLoopCounter%10000 == 0){plotCalibrationPoints();}}
+  else if (intMode == 8){if (lngLoopCounter%10000 == 0){plotCalibrationPoints();}}
 
   lngLoopCounter++;
   if (lngLoopCounter >= 100000){
