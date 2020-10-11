@@ -3,10 +3,12 @@ import time
 import serial
 
 # set the appropriate com ports
-serialPortRangefinder = 'COM23'
-serialPortCNCArm = 'COM24'
+serialPortRangefinder = 'COM6'
+serialPortCNCArm = 'COM7'
 # Use this to adjust range and CNC direction
-GcodeString = 'G91 Y-.127\n' # move relative (so the command is always the same), by another 5 thousands of an inch, in mm.
+#GcodeString = 'G91 Y-.127\n' # move relative (so the command is always the same), by another 5 thousands of an inch, in mm.
+#GcodeString = 'G91 Y.1016\n'
+GcodeString = 'G91 Y.2032\n'
 
 try:
 	serialRangefinder = serial.Serial(serialPortRangefinder, baudrate=1000000, timeout=1)
@@ -26,8 +28,9 @@ time.sleep(2) # give the micro time to transmit anything in the backlog
 print("Clearing serial buffer")
 while serialRangefinder.in_waiting:  # Or: while serialRangefinder.inWaiting(): for older piSerial libraries
     serialRangefinder.readline()
-for i in range(128,228): # unit is hardcoded with 100 calibration points, starts indexing at 128 to reserve ASCII inputs.
-	print("LOOP PROGRESS: " + str(i-128) + '/' + str(100))
+#for i in range(128,228): # unit is hardcoded with 100 calibration points, starts indexing at 128 to reserve ASCII inputs.
+for i in range(128,178):
+	print("LOOP PROGRESS: " + str(i-128) + '/' + str(50))
 	if CNCAvailable: serialCNCArm.write(GcodeString.encode())	
 	time.sleep(.6) # needs enough time for the arm to move, settle, and the position sensor to grab 1000 points (speed for
 		# this depends on how fast the sensor is running)
